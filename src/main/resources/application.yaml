@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: farmAiAssist
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+            schema: classpath:schema/schema-h2db.sql
+    vectorstore:
+      qdrant:
+        host: localhost
+        port: 6334
+        collection-name: navneet
+        initialize-schema: true
+  datasource:
+    url: jdbc:h2:file:~/chatmemory;AUTO_SERVER=true
+    driver-class-name: org.h2.Driver
+    username: navneet
+    password: 123
+  h2:
+    console:
+      enabled: true
+  docker:
+    compose:
+      stop:
+        command: down
+
+logging:
+  pattern:
+    console: "%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n"
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
