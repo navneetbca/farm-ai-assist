@@ -1,151 +1,143 @@
 # Farm AI Assist
 
-Farm AI Assist is a **Spring Boot + Spring AI** project demonstrating how to build **AI-powered backend systems**
-using Retrieval-Augmented Generation (RAG), vector databases, and web search.
+Farm AI Assist is a **Spring Boot + Spring AI** project demonstrating how to build an **AI-powered and Intelligent backend system** using **Retrieval-Augmented Generation (RAG)**, vector databases, and web search.
 
-The system answers farming-related questions using:
-
-* LLM responses
-* Vector database retrieval
-* Web search augmentation
-* Prompt engineering
-* Structured AI outputs
-* Streaming responses
+The application answers farming-related queries using **LLM responses enriched with contextual retrieval** from a vector store and external web search.
 
 ---
 
-# Features
-
-### AI & LLM Integration
+## Features
 
 * OpenAI API integration
-* Prompt engineering and prompt templates
-* Prompt stuffing with retrieved context
-* Streaming AI responses
+* Retrieval-Augmented Generation (RAG)
+* Vector search using Qdrant
+* Web search augmentation
+* Prompt templates & prompt stuffing
+* Streaming LLM responses
 * Structured AI outputs (JSON / POJO)
-
-### Retrieval Augmented Generation (RAG)
-
-* Vector embeddings stored in Qdrant
-* Similarity search for document retrieval
-* Context injection into prompts
-
-### Web Search Augmentation
-
-* Real-time web search using Tavily
-* External knowledge retrieval when local data is insufficient
-
-### Chat System
-
-* Conversation memory
-* User-based chat sessions
-* Context-aware responses
+* Chat memory using JDBC
+* Automatic container startup using Spring Boot Docker Compose
 
 ---
 
-# Architecture
+## Architecture
 
-User Query
-⬇
-Spring Boot REST API
-⬇
-ChatClient (Spring AI)
-⬇
-Advisors
-• Chat Memory
-• RAG Retrieval
-• Web Search Retrieval
-⬇
-Vector Store / Web Search
-⬇
-Prompt Template + Context
-⬇
-LLM (OpenAI)
-⬇
-Streaming AI Response
+```
+Client -> Spring Boot REST API -> Spring AI ChatClient -> Advisors (Chat Memory, Vector Retrieval (Qdrant), Web Search Retrieval -> Prompt Template + Retrieved Context -> OpenAI LLM -> Streaming Response
+
+```
 
 ---
 
-# Tech Stack
+## Tech Stack
 
-Backend
+**Backend**
 
 * Java
 * Spring Boot
 * Spring AI
 
-AI & Data
+**AI**
 
 * OpenAI API
-* Qdrant Vector Database
-* Retrieval Augmented Generation (RAG)
+* RAG (Retrieval-Augmented Generation)
 * Prompt Engineering
 
-Infrastructure
+**Data**
+
+* Qdrant Vector Database
+* H2 Database (chat memory)
+
+**Infrastructure**
 
 * Docker
-* H2 Database
+* Spring Boot Docker Compose
 
 ---
 
-# API Endpoints
+## API Endpoints
 
 ### Chat with Memory
 
-GET /api/random-chat
+```
+GET /api/random-chat?message=Your question
+```
 
-### Chat with Documents (RAG)
+### Chat with Vector Documents (RAG)
 
-GET /api/document-chat
+```
+GET /api/document-chat?message=Your question
+```
 
 ### Chat with Web Search
 
-GET /api/web-search-chat
+```
+GET /api/web-search-chat?message=Your question
+```
 
 ---
 
-# How to Run
+## Configuration
 
-Clone repository:
+Example `application.yml` configuration:
 
-git clone https://github.com/navneetbca/farm-ai-assist.git
-cd farm-ai-assist
+```yaml
+spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
 
-Set environment variables:
+    vectorstore:
+      qdrant:
+        host: localhost
+        port: 6334
+        collection-name: navneet
+        initialize-schema: true
+```
 
-export OPENAI_API_KEY=your_key
-export TAVILY_SEARCH_API_KEY=your_key
+---
 
-Run the application:
+## Running the Project
 
+### Requirements
+
+* Java 21+
+* Docker
+* OpenAI API Key
+* Tavily API Key
+
+### Environment Variables
+
+```
+export OPENAI_API_KEY=your_openai_key
+export TAVILY_SEARCH_API_KEY=your_tavily_key
+```
+
+### Start Application
+
+```
 ./mvnw spring-boot:run
+```
+
+When the application starts:
+
+* Spring Boot automatically starts the **Qdrant container**
+* The vector collection is created if missing
 
 ---
 
-# Vector Database
+## Purpose
 
-The project uses Qdrant for storing embeddings.
+This project demonstrates how to build **modern AI-enabled backend systems** using:
 
-Start Qdrant:
-
-docker compose up
-
----
-
-# Purpose
-
-This project demonstrates how modern backend systems can integrate AI capabilities such as:
-
-* RAG pipelines
-* Prompt engineering
+* Spring AI
+* Vector databases
+* Retrieval-Augmented Generation
 * Streaming LLM responses
 * Structured AI outputs
-* Vector search
 
 ---
 
-# Author
+## Author
 
-Navneet
-Java Backend Developer
-Spring Boot | AI Integration | RAG Systems
+Navneet ( Java Backend Developer | Spring Boot | AI Integration )
