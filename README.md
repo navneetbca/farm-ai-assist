@@ -128,8 +128,6 @@ spring:
 
 ---
 
-## Running the Project
-
 ### Requirements
 
 * Java 21+
