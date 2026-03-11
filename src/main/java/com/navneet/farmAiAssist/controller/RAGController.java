@@ -76,5 +76,4 @@ public class RAGController {
                 .call().content();
         return ResponseEntity.ok(answer);
     }
-
 }
