@@ -1,6 +1,6 @@
 # helm/farmAiAssist/Chart.yaml
 apiVersion: v1
-name: farmAiAssist
+name: farm-ai-assist
 description: Helm chart for FarmAiAssist microservice
 type: application
 version: 0.1.0

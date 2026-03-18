@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "farmAiAssist.fullname" . }}
+  name: {{ include "farm-ai-assist.fullname" . }}
   labels:
-    app: {{ include "farmAiAssist.fullname" . }}
+    app: {{ include "farm-ai-assist.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "farmAiAssist.fullname" . }}
+      app: {{ include "farm-ai-assist.fullname" . }}
   template:
     metadata:
       labels:
-        app: {{ include "farmAiAssist.fullname" . }}
+        app: {{ include "farm-ai-assist.fullname" . }}
     spec:
       imagePullSecrets:
         - name: ghcr-secret
 
       containers:
-        - name: farmAiAssist
+        - name: farm-ai-assist    # k8s only supports lowercase names
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
@@ -28,7 +28,7 @@ spec:
 
           envFrom:
             - configMapRef:
-                name: {{ include "farmAiAssist.fullname" . }}-config
+                name: {{ include "farm-ai-assist.fullname" . }}-config
 
           env:
             # OpenAI

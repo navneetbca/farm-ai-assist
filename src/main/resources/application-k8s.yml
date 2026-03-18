@@ -4,7 +4,11 @@ server:
 
 spring:
   application:
-    name: farmAiAssist
+    name: farm-ai-assist
+
+  docker:
+    compose:
+      enabled: false
 
   datasource:
     url: jdbc:h2:file:/data/chatmemory;AUTO_SERVER=true
