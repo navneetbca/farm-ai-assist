@@ -22,9 +22,9 @@ spring:
 
     vectorstore:
       qdrant:
-        host: ${SPRING_AI_VECTORSTORE_QDRANT_HOST}
-        port: ${SPRING_AI_VECTORSTORE_QDRANT_PORT}
-        collection-name: ${SPRING_AI_VECTORSTORE_QDRANT_COLLECTION_NAME}
+        host: qdrant.default.svc.cluster.local
+        port: 6334
+        collection-name: navneet
 
 farmAiAssist:
   service:
