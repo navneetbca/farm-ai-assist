@@ -1,0 +1,27 @@
+# application-k8s.yml
+server:
+  port: 8080
+
+spring:
+  application:
+    name: farmAiAssist
+
+  datasource:
+    url: jdbc:h2:file:/data/chatmemory;AUTO_SERVER=true
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+
+    vectorstore:
+      qdrant:
+        host: ${SPRING_AI_VECTORSTORE_QDRANT_HOST}
+        port: ${SPRING_AI_VECTORSTORE_QDRANT_PORT}
+        collection-name: ${SPRING_AI_VECTORSTORE_QDRANT_COLLECTION_NAME}
+
+farmAiAssist:
+  service:
+    url: http://{{SERVICE_NAME}}:8080

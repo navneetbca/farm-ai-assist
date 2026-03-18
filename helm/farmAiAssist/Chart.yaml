@@ -1,0 +1,7 @@
+# helm/farmAiAssist/Chart.yaml
+apiVersion: v1
+name: farmAiAssist
+description: Helm chart for FarmAiAssist microservice
+type: application
+version: 0.1.0
+appVersion: "0.0.1-SNAPSHOT"   # matches Docker image tag convention

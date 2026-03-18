@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2️⃣ Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - name: Extract Maven version
+        id: version
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      # 3️⃣ Build & push Docker image with Jib
+      - name: Build and Push Docker image with Jib
+        run: |
+          SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+          
+          mvn clean compile jib:build \
+            -Djib.to.image=ghcr.io/navneetbca/farm-ai-assist \
+            -Djib.to.tags=${{ steps.version.outputs.VERSION }},sha-$SHORT_SHA \
+            -Djib.to.auth.username=navneetbca \
+            -Djib.to.auth.password=${{ secrets.GHCR_PAT }}

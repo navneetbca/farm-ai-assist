@@ -1,0 +1,10 @@
+# helm/farmAiAssist/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "farmAiAssist.fullname" . }}-config
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.config.SPRING_PROFILES_ACTIVE | quote }}
+  SPRING_AI_VECTORSTORE_QDRANT_HOST: {{ .Values.qdrant.host | quote }}
+  SPRING_AI_VECTORSTORE_QDRANT_PORT: {{ .Values.qdrant.port | quote }}
+  SPRING_AI_VECTORSTORE_QDRANT_COLLECTION_NAME: {{ .Values.qdrant.collectionName | quote }}

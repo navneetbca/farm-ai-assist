@@ -1,0 +1,64 @@
+# helm/farmAiAssist/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "farmAiAssist.fullname" . }}
+  labels:
+    app: {{ include "farmAiAssist.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "farmAiAssist.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "farmAiAssist.fullname" . }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+
+      containers:
+        - name: farmAiAssist
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.service.port }}
+
+          envFrom:
+            - configMapRef:
+                name: {{ include "farmAiAssist.fullname" . }}-config
+
+          env:
+            # OpenAI
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-key-secret
+                  key: OPENAI_API_KEY
+            - name: TAVILY_SEARCH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tavily-key-secret
+                  key: TAVILY_SEARCH_API_KEY
+            # H2 DB config
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:h2:file:/data/chatmemory;AUTO_SERVER=true
+
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: org.h2.Driver
+
+            - name: SPRING_DATASOURCE_USERNAME
+              value: sa
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""
+
+          volumeMounts:
+            - name: h2-storage
+              mountPath: /data
+
+      volumes:
+        - name: h2-storage
+          emptyDir: {}

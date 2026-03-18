@@ -1,3 +1,4 @@
+# application.yaml
 spring:
   application:
     name: farmAiAssist
@@ -24,6 +25,9 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
   docker:
     compose:
       stop:
